@@ -1,0 +1,2103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Sprout Career Companion Quiz</title>
+
+<style>
+
+:root {
+  --red: #FF3338;
+  --green: #A4C545;
+  --pink: #F8AAA1;
+  --blue: #3C6D86;
+  --mint: #8FC1B5;
+  --cream: #FFFDF7;
+  --dark: #304A3A;
+  --muted: #65756B;
+  --white: #FFFFFF;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--dark);
+
+  background:
+    radial-gradient(
+      circle at 5% 5%,
+      rgba(164,197,69,.24),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 95% 8%,
+      rgba(248,170,161,.24),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 90% 95%,
+      rgba(143,193,181,.25),
+      transparent 30%
+    ),
+    var(--cream);
+}
+
+button {
+  font: inherit;
+}
+
+.app {
+  width: min(760px, calc(100% - 28px));
+  margin: auto;
+  padding: 18px 0 42px;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.logo {
+  width: 185px;
+  height: 82px;
+  object-fit: contain;
+}
+
+.eyebrow {
+  color: var(--blue);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(30px, 8vw, 47px);
+  line-height: 1;
+  margin: 4px 0;
+  color: var(--green);
+
+  -webkit-text-stroke: .7px var(--dark);
+}
+
+.subtitle {
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 8px auto;
+  max-width: 540px;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.card {
+  background: rgba(255,255,255,.94);
+  border: 2px solid rgba(48,74,58,.08);
+  border-radius: 28px;
+
+  box-shadow:
+    0 14px 40px rgba(48,74,58,.11);
+}
+
+/* =========================
+   START SCREEN
+========================= */
+
+.start {
+  padding: 28px 20px;
+  text-align: center;
+}
+
+.mini-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin: 3px 0 18px;
+}
+
+.mini {
+  width: 53px;
+  height: 53px;
+  object-fit: contain;
+  border-radius: 16px;
+  background: #fff;
+}
+
+.info {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin: 18px 0;
+}
+
+.pill {
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  background: #f1f4ea;
+  color: var(--dark);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.primary {
+  width: 100%;
+  border: 0;
+  border-radius: 16px;
+  padding: 15px 18px;
+
+  background: var(--green);
+  color: var(--dark);
+
+  font-weight: 900;
+  cursor: pointer;
+
+  transition:
+    .18s transform,
+    .18s box-shadow;
+}
+
+.primary:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 18px rgba(48,74,58,.18);
+}
+
+.secondary {
+  border: 2px solid #dfe6df;
+  background: #fff;
+  color: var(--dark);
+
+  border-radius: 15px;
+  padding: 12px 16px;
+
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress {
+  margin-bottom: 13px;
+}
+
+.progress-top {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 12px;
+  font-weight: 900;
+
+  margin-bottom: 6px;
+}
+
+.track {
+  height: 9px;
+
+  background: #e8ede4;
+
+  border-radius: 999px;
+
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 0;
+
+  background: var(--green);
+
+  transition: width .3s;
+}
+
+/* =========================
+   QUIZ
+========================= */
+
+.quiz {
+  padding: 24px 18px;
+
+  animation: slideIn .3s ease;
+}
+
+@keyframes slideIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+}
+
+.tag {
+  display: inline-block;
+
+  border-radius: 999px;
+
+  padding: 7px 11px;
+
+  background: var(--pink);
+
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.question {
+  font-size: clamp(23px,5.5vw,32px);
+
+  line-height: 1.14;
+
+  margin: 12px 0 20px;
+}
+
+.answers {
+  display: grid;
+  gap: 10px;
+}
+
+.answer {
+
+  width: 100%;
+
+  display: flex;
+
+  gap: 11px;
+
+  align-items: center;
+
+  text-align: left;
+
+  padding: 14px;
+
+  border: 2px solid #e4e9e2;
+
+  background: #fff;
+
+  border-radius: 16px;
+
+  cursor: pointer;
+
+  transition: .16s;
+}
+
+.answer:hover {
+
+  border-color: var(--green);
+
+  transform: translateX(2px);
+
+}
+
+.answer.selected {
+
+  border-color: var(--green);
+
+  background: #f5f9ec;
+
+  box-shadow:
+    0 3px 0 var(--green);
+}
+
+.letter {
+
+  min-width: 34px;
+
+  height: 34px;
+
+  border-radius: 11px;
+
+  background: #edf1ec;
+
+  display: grid;
+
+  place-items: center;
+
+  font-weight: 900;
+}
+
+.selected .letter {
+
+  background: var(--green);
+
+}
+
+.actions {
+
+  display: flex;
+
+  gap: 9px;
+
+  margin-top: 18px;
+}
+
+.next {
+  flex: 1;
+}
+
+/* =========================
+   REVIEW
+========================= */
+
+.review {
+
+  padding: 25px 18px;
+}
+
+.review h2 {
+
+  color: var(--dark);
+
+}
+
+.review-intro {
+
+  color: var(--muted);
+
+  line-height: 1.45;
+}
+
+.review-item {
+
+  border: 2px solid #e7ece5;
+
+  border-radius: 17px;
+
+  padding: 13px;
+
+  margin: 9px 0;
+
+  cursor: pointer;
+
+  transition: .18s;
+}
+
+.review-item:hover {
+
+  border-color: var(--green);
+
+  transform: translateY(-1px);
+
+}
+
+.review-num {
+
+  font-size: 11px;
+
+  font-weight: 900;
+
+  color: var(--blue);
+}
+
+.review-q {
+
+  font-size: 14px;
+
+  margin: 4px 0;
+}
+
+.review-a {
+
+  font-weight: 900;
+
+  color: var(--green);
+}
+
+.edit {
+
+  float: right;
+
+  font-size: 11px;
+
+  color: var(--blue);
+}
+
+/* =========================
+   RESULT
+========================= */
+
+.result {
+
+  padding: 26px 18px;
+
+  text-align: center;
+
+  overflow: hidden;
+}
+
+.result-badge {
+
+  display: inline-block;
+
+  background: var(--pink);
+
+  border-radius: 999px;
+
+  padding: 8px 13px;
+
+  font-size: 11px;
+
+  font-weight: 900;
+}
+
+.result-title {
+
+  font-size: clamp(31px,8vw,48px);
+
+  line-height: 1;
+
+  margin: 11px 0 5px;
+}
+
+.result-sub {
+
+  color: var(--muted);
+}
+
+/* =========================
+   PLUSH RESULT
+========================= */
+
+.plush-stage {
+
+  position: relative;
+
+  min-height: 270px;
+
+  display: grid;
+
+  place-items: center;
+
+  margin: 5px auto 10px;
+
+  max-width: 330px;
+}
+
+.plush-stage::before,
+.plush-stage::after {
+
+  position: absolute;
+
+  color: var(--red);
+
+  font-size: 26px;
+
+  animation: float 2s ease-in-out infinite;
+}
+
+.plush-stage::before {
+
+  content: "✦";
+
+  left: 30px;
+
+  top: 40px;
+}
+
+.plush-stage::after {
+
+  content: "✦";
+
+  right: 35px;
+
+  bottom: 40px;
+
+  animation-delay: .5s;
+}
+
+@keyframes float {
+
+  50% {
+
+    transform:
+      translateY(-9px)
+      rotate(8deg);
+
+  }
+
+}
+
+.plush {
+
+  width: 260px;
+
+  height: 260px;
+
+  object-fit: contain;
+
+  animation:
+    pop .65s cubic-bezier(.2,1.35,.4,1);
+}
+
+@keyframes pop {
+
+  0% {
+
+    opacity: 0;
+
+    transform:
+      scale(.35)
+      rotate(-8deg);
+
+  }
+
+  70% {
+
+    transform:
+      scale(1.07)
+      rotate(3deg);
+
+  }
+
+  100% {
+
+    opacity: 1;
+
+    transform: none;
+
+  }
+
+}
+
+/* =========================
+   TRAITS
+========================= */
+
+.traits {
+
+  display: flex;
+
+  justify-content: center;
+
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin: 14px 0;
+}
+
+.trait {
+
+  background: #f0f4ea;
+
+  border-radius: 999px;
+
+  padding: 8px 11px;
+
+  font-size: 12px;
+
+  font-weight: 900;
+}
+
+/* =========================
+   WHY MATCHED
+========================= */
+
+.why {
+
+  background: #fff8e9;
+
+  border-left: 5px solid var(--red);
+
+  border-radius: 16px;
+
+  padding: 16px;
+
+  text-align: left;
+
+  margin-top: 16px;
+}
+
+.why h3 {
+
+  margin: 0 0 6px;
+}
+
+.why p {
+
+  margin: 0;
+
+  color: #526158;
+
+  line-height: 1.5;
+}
+
+.result-actions {
+
+  display: grid;
+
+  gap: 9px;
+
+  margin-top: 18px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+
+  text-align: center;
+
+  font-size: 11px;
+
+  color: var(--muted);
+
+  margin-top: 17px;
+}
+
+/* =========================
+   CONFETTI
+========================= */
+
+.confetti {
+
+  position: fixed;
+
+  top: -15px;
+
+  width: 8px;
+
+  height: 13px;
+
+  z-index: 20;
+
+  animation:
+    fall 1.7s linear forwards;
+}
+
+@keyframes fall {
+
+  to {
+
+    transform:
+      translateY(110vh)
+      rotate(700deg);
+
+    opacity: 0;
+
+  }
+
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media(min-width:600px) {
+
+  .start,
+  .quiz,
+  .review,
+  .result {
+
+    padding: 32px;
+
+  }
+
+  .logo {
+
+    width: 210px;
+
+    height: 90px;
+
+  }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="app">
+
+<!-- ==================================
+     HEADER
+================================== -->
+
+<header class="header">
+
+  <img
+    class="logo"
+    src="images/sprout-logo.png"
+    alt="Sprout logo"
+  >
+
+  <div class="eyebrow">
+    Career Companion Quiz
+  </div>
+
+  <h1>
+    Who's your Sprout?
+  </h1>
+
+  <p class="subtitle">
+    Answer a few quick questions and discover
+    the career companion that matches your strengths.
+  </p>
+
+</header>
+
+
+<!-- ==================================
+     START SCREEN
+================================== -->
+
+<section
+  id="start"
+  class="card start"
+>
+
+  <div class="mini-row">
+
+    <img
+      class="mini"
+      src="images/business-bunny.png"
+      alt=""
+    >
+
+    <img
+      class="mini"
+      src="images/law-lion.png"
+      alt=""
+    >
+
+    <img
+      class="mini"
+      src="images/education-elephant.png"
+      alt=""
+    >
+
+    <img
+      class="mini"
+      src="images/engineering-bee.png"
+      alt=""
+    >
+
+    <img
+      class="mini"
+      src="images/medicine-monkey.png"
+      alt=""
+    >
+
+  </div>
+
+
+  <h2>
+    Let's find your match.
+  </h2>
+
+
+  <p>
+    There are no wrong answers.
+    Choose what feels most like you.
+  </p>
+
+
+  <div class="info">
+
+    <span class="pill">
+      ⚡ About 1 minute
+    </span>
+
+    <span class="pill">
+      🌱 8 questions
+    </span>
+
+    <span class="pill">
+      ✨ No wrong answers
+    </span>
+
+  </div>
+
+
+  <button
+    class="primary"
+    onclick="startQuiz()"
+  >
+    Start the quiz →
+  </button>
+
+</section>
+
+
+<!-- ==================================
+     QUIZ SCREEN
+================================== -->
+
+<section
+  id="quizScreen"
+  class="hidden"
+>
+
+  <div class="progress">
+
+    <div class="progress-top">
+
+      <span id="progressText"></span>
+
+      <span id="percent"></span>
+
+    </div>
+
+
+    <div class="track">
+
+      <div
+        id="bar"
+        class="bar"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <div
+    id="quizCard"
+    class="card quiz"
+  >
+
+    <span
+      id="tag"
+      class="tag"
+    >
+      QUESTION 1
+    </span>
+
+
+    <h2
+      id="question"
+      class="question"
+    ></h2>
+
+
+    <div
+      id="answers"
+      class="answers"
+    ></div>
+
+
+    <div class="actions">
+
+      <button
+        id="back"
+        class="secondary"
+        onclick="previousQuestion()"
+        style="display:none"
+      >
+        ← Back
+      </button>
+
+
+      <button
+        id="next"
+        class="primary next"
+        onclick="nextQuestion()"
+        disabled
+      >
+        Choose an answer
+      </button>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- ==================================
+     REVIEW SCREEN
+================================== -->
+
+<section
+  id="reviewScreen"
+  class="card review hidden"
+>
+
+  <span class="tag">
+    ALMOST THERE ✨
+  </span>
+
+
+  <h2>
+    Review your answers
+  </h2>
+
+
+  <p class="review-intro">
+
+    Tap any question to change your answer
+    before you reveal your Sprout.
+
+  </p>
+
+
+  <div id="reviewList"></div>
+
+
+  <button
+    class="primary"
+    onclick="showResult()"
+  >
+    Reveal my Sprout ✨
+  </button>
+
+</section>
+
+
+<!-- ==================================
+     RESULT SCREEN
+================================== -->
+
+<section
+  id="resultScreen"
+  class="card result hidden"
+>
+
+  <span class="result-badge">
+    Your Sprout match is...
+  </span>
+
+
+  <h2
+    id="resultName"
+    class="result-title"
+  ></h2>
+
+
+  <p class="result-sub">
+    Here are the strengths your answers showed.
+  </p>
+
+
+  <div class="plush-stage">
+
+    <img
+      id="resultImage"
+      class="plush"
+      src=""
+      alt=""
+    >
+
+  </div>
+
+
+  <div
+    id="traits"
+    class="traits"
+  ></div>
+
+
+  <div class="why">
+
+    <h3>
+      Why you matched 🌱
+    </h3>
+
+    <p id="why"></p>
+
+  </div>
+
+
+  <div class="result-actions">
+
+    <button
+      class="primary"
+      onclick="meetSprout()"
+    >
+      Meet Your Sprout →
+    </button>
+
+
+    <button
+      class="secondary"
+      onclick="restartQuiz()"
+    >
+      Take the quiz again ↻
+    </button>
+
+  </div>
+
+</section>
+
+
+<div class="footer">
+
+  <strong>SPROUT</strong>
+  · Building confidence for the workplace,
+  one skill at a time.
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ==================================
+   QUESTIONS
+================================== */
+
+const questions = [
+
+  {
+    q:
+      "You’re given a group project. What role do you naturally take?",
+
+    a: [
+
+      [
+        "A",
+        "I organize everyone and make sure we have a plan.",
+        "business"
+      ],
+
+      [
+        "B",
+        "I make sure everyone's ideas and opinions are heard.",
+        "law"
+      ],
+
+      [
+        "C",
+        "I help the group stay positive and work together.",
+        "education"
+      ],
+
+      [
+        "D",
+        "I figure out how we're going to solve the problem.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "I make sure everyone is doing okay and supported.",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "Which kind of problem sounds most interesting?",
+
+    a: [
+
+      [
+        "A",
+        "How could we turn an idea into something people want?",
+        "business"
+      ],
+
+      [
+        "B",
+        "What is fair, and how could I make a strong case?",
+        "law"
+      ],
+
+      [
+        "C",
+        "How could I help someone understand something difficult?",
+        "education"
+      ],
+
+      [
+        "D",
+        "How could I build or improve something?",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "What could be causing a problem, and how could I help?",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "You get a challenge you've never seen before. What do you do first?",
+
+    a: [
+
+      [
+        "A",
+        "Think about the goal and create a plan.",
+        "business"
+      ],
+
+      [
+        "B",
+        "Gather information before making a decision.",
+        "law"
+      ],
+
+      [
+        "C",
+        "Talk it through with someone.",
+        "education"
+      ],
+
+      [
+        "D",
+        "Experiment until I understand how it works.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "Look closely at the details and possible causes.",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "Which experience would you rather try?",
+
+    a: [
+
+      [
+        "A",
+        "Pitching an idea to a team.",
+        "business"
+      ],
+
+      [
+        "B",
+        "Presenting an argument in a courtroom.",
+        "law"
+      ],
+
+      [
+        "C",
+        "Teaching someone something you're good at.",
+        "education"
+      ],
+
+      [
+        "D",
+        "Designing and testing an invention.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "Exploring how doctors diagnose and help patients.",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "When working with others, what strength do you bring?",
+
+    a: [
+
+      [
+        "A",
+        "Leadership and confidence.",
+        "business"
+      ],
+
+      [
+        "B",
+        "Speaking up and making a strong argument.",
+        "law"
+      ],
+
+      [
+        "C",
+        "Patience and understanding.",
+        "education"
+      ],
+
+      [
+        "D",
+        "Creative problem solving.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "Responsibility and empathy.",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "Which result would make you most proud?",
+
+    a: [
+
+      [
+        "A",
+        "Seeing an idea become successful.",
+        "business"
+      ],
+
+      [
+        "B",
+        "Helping solve an important disagreement.",
+        "law"
+      ],
+
+      [
+        "C",
+        "Watching someone finally understand something.",
+        "education"
+      ],
+
+      [
+        "D",
+        "Seeing something I designed actually work.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "Knowing I helped someone feel better or stay healthy.",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "Which skill would you most want to develop?",
+
+    a: [
+
+      [
+        "A",
+        "Leadership and communication.",
+        "business"
+      ],
+
+      [
+        "B",
+        "Critical thinking and advocacy.",
+        "law"
+      ],
+
+      [
+        "C",
+        "Communication and empathy.",
+        "education"
+      ],
+
+      [
+        "D",
+        "Innovation and problem solving.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "Science and responsibility.",
+        "medicine"
+      ]
+
+    ]
+
+  },
+
+
+  {
+    q:
+      "What sounds most exciting for your future?",
+
+    a: [
+
+      [
+        "A",
+        "Leading a team or building an idea.",
+        "business"
+      ],
+
+      [
+        "B",
+        "Standing up for people or solving complex issues.",
+        "law"
+      ],
+
+      [
+        "C",
+        "Helping people learn and grow.",
+        "education"
+      ],
+
+      [
+        "D",
+        "Creating technology, designs, or solutions.",
+        "engineering"
+      ],
+
+      [
+        "E",
+        "Using science to care for people's health.",
+        "medicine"
+      ]
+
+    ]
+
+  }
+
+];
+
+
+/* ==================================
+   RESULTS
+================================== */
+
+const results = {
+
+  business: {
+
+    name:
+      "Business Bunny",
+
+    image:
+      "images/business-bunny.png",
+
+    traits: [
+      "Leadership",
+      "Communication",
+      "Creativity",
+      "Confidence"
+    ],
+
+    why:
+      "You naturally think about ideas, people, goals, and how to turn plans into action. You enjoy taking initiative and bringing people together."
+
+  },
+
+
+  law: {
+
+    name:
+      "Law Lion",
+
+    image:
+      "images/law-lion.png",
+
+    traits: [
+      "Critical Thinking",
+      "Advocacy",
+      "Confidence",
+      "Problem Solving"
+    ],
+
+    why:
+      "You like thinking deeply, looking at different sides of an issue, and standing up for what you believe is important."
+
+  },
+
+
+  education: {
+
+    name:
+      "Education Elephant",
+
+    image:
+      "images/education-elephant.png",
+
+    traits: [
+      "Empathy",
+      "Patience",
+      "Communication",
+      "Teamwork"
+    ],
+
+    why:
+      "You enjoy helping people grow. Your patience, communication, and ability to understand others make you a natural supporter and teacher."
+
+  },
+
+
+  engineering: {
+
+    name:
+      "Engineering Bee",
+
+    image:
+      "images/engineering-bee.png",
+
+    traits: [
+      "Problem Solving",
+      "Curiosity",
+      "Innovation",
+      "Persistence"
+    ],
+
+    why:
+      "You enjoy figuring out how things work and aren't afraid to experiment. You see challenges as problems waiting to be solved."
+
+  },
+
+
+  medicine: {
+
+    name:
+      "Medicine Monkey",
+
+    image:
+      "images/medicine-monkey.png",
+
+    traits: [
+      "Empathy",
+      "Science",
+      "Responsibility",
+      "Focus"
+    ],
+
+    why:
+      "You combine curiosity with care for others. You enjoy understanding problems, paying attention to details, and helping people."
+
+  }
+
+};
+
+
+/* ==================================
+   QUIZ STATE
+================================== */
+
+let current = 0;
+
+let answers =
+  Array(questions.length).fill(null);
+
+
+/* ==================================
+   START QUIZ
+================================== */
+
+function startQuiz() {
+
+  current = 0;
+
+  answers =
+    Array(questions.length).fill(null);
+
+
+  document
+    .getElementById("start")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("resultScreen")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("reviewScreen")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("quizScreen")
+    .classList.remove("hidden");
+
+
+  render();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ==================================
+   RENDER QUESTION
+================================== */
+
+function render() {
+
+  const q =
+    questions[current];
+
+
+  document
+    .getElementById("tag")
+    .textContent =
+      `QUESTION ${current + 1}`;
+
+
+  document
+    .getElementById("question")
+    .textContent =
+      q.q;
+
+
+  document
+    .getElementById("progressText")
+    .textContent =
+      `Question ${current + 1} of ${questions.length}`;
+
+
+  const percent =
+    Math.round(
+      ((current + 1) /
+      questions.length) * 100
+    );
+
+
+  document
+    .getElementById("percent")
+    .textContent =
+      `${percent}%`;
+
+
+  document
+    .getElementById("bar")
+    .style.width =
+      percent + "%";
+
+
+  const box =
+    document.getElementById("answers");
+
+
+  box.innerHTML = "";
+
+
+  q.a.forEach(
+    (item) => {
+
+      const button =
+        document.createElement("button");
+
+
+      button.className =
+        "answer";
+
+
+      if (
+        answers[current] ===
+        item[2]
+      ) {
+
+        button.classList.add(
+          "selected"
+        );
+
+      }
+
+
+      button.innerHTML = `
+
+        <span class="letter">
+          ${item[0]}
+        </span>
+
+        <span>
+          ${item[1]}
+        </span>
+
+      `;
+
+
+      button.onclick =
+        () => {
+
+          answers[current] =
+            item[2];
+
+          render();
+
+        };
+
+
+      box.appendChild(button);
+
+    }
+  );
+
+
+  document
+    .getElementById("back")
+    .style.display =
+      current > 0
+      ? "block"
+      : "none";
+
+
+  const next =
+    document.getElementById("next");
+
+
+  next.disabled =
+    !answers[current];
+
+
+  next.style.opacity =
+    answers[current]
+    ? "1"
+    : ".55";
+
+
+  next.textContent =
+    current === questions.length - 1
+    ? "Review my answers →"
+    : "Next question →";
+
+
+  const card =
+    document.getElementById("quizCard");
+
+
+  card.style.animation =
+    "none";
+
+
+  requestAnimationFrame(
+    () => {
+
+      card.style.animation =
+        "slideIn .3s ease";
+
+    }
+  );
+
+}
+
+
+/* ==================================
+   NEXT QUESTION
+================================== */
+
+function nextQuestion() {
+
+  if (!answers[current])
+    return;
+
+
+  if (
+    current <
+    questions.length - 1
+  ) {
+
+    current++;
+
+    render();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+  else {
+
+    showReview();
+
+  }
+
+}
+
+
+/* ==================================
+   PREVIOUS QUESTION
+================================== */
+
+function previousQuestion() {
+
+  if (current > 0) {
+
+    current--;
+
+    render();
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+
+}
+
+
+/* ==================================
+   REVIEW ANSWERS
+================================== */
+
+function showReview() {
+
+  document
+    .getElementById("quizScreen")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("reviewScreen")
+    .classList.remove("hidden");
+
+
+  const list =
+    document.getElementById("reviewList");
+
+
+  list.innerHTML = "";
+
+
+  questions.forEach(
+    (q, i) => {
+
+      const selected =
+        q.a.find(
+          x =>
+            x[2] === answers[i]
+        );
+
+
+      const div =
+        document.createElement("div");
+
+
+      div.className =
+        "review-item";
+
+
+      div.innerHTML = `
+
+        <span class="edit">
+          EDIT →
+        </span>
+
+        <div class="review-num">
+          QUESTION ${i + 1}
+        </div>
+
+        <div class="review-q">
+          ${q.q}
+        </div>
+
+        <div class="review-a">
+          ${selected ? selected[1] : ""}
+        </div>
+
+      `;
+
+
+      div.onclick =
+        () => {
+
+          current = i;
+
+
+          document
+            .getElementById("reviewScreen")
+            .classList.add("hidden");
+
+
+          document
+            .getElementById("quizScreen")
+            .classList.remove("hidden");
+
+
+          render();
+
+
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+          });
+
+        };
+
+
+      list.appendChild(div);
+
+    }
+  );
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ==================================
+   SHOW RESULT
+================================== */
+
+function showResult() {
+
+  const scores = {
+
+    business: 0,
+
+    law: 0,
+
+    education: 0,
+
+    engineering: 0,
+
+    medicine: 0
+
+  };
+
+
+  answers.forEach(
+    answer => {
+
+      if (answer)
+        scores[answer]++;
+
+    }
+  );
+
+
+  const highest =
+    Math.max(
+      ...Object.values(scores)
+    );
+
+
+  const winners =
+    Object.keys(scores)
+      .filter(
+        key =>
+          scores[key] === highest
+      );
+
+
+  const winner =
+    winners[
+      Math.floor(
+        Math.random() *
+        winners.length
+      )
+    ];
+
+
+  const result =
+    results[winner];
+
+
+  document
+    .getElementById("reviewScreen")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("quizScreen")
+    .classList.add("hidden");
+
+
+  document
+    .getElementById("resultScreen")
+    .classList.remove("hidden");
+
+
+  document
+    .getElementById("resultName")
+    .textContent =
+      result.name;
+
+
+  const resultImage =
+    document.getElementById(
+      "resultImage"
+    );
+
+
+  resultImage.src =
+    result.image;
+
+
+  resultImage.alt =
+    result.name;
+
+
+  document
+    .getElementById("why")
+    .textContent =
+      result.why;
+
+
+  document
+    .getElementById("traits")
+    .innerHTML =
+      result.traits
+        .map(
+          trait =>
+            `<span class="trait">${trait}</span>`
+        )
+        .join("");
+
+
+  launchConfetti();
+
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ==================================
+   CONFETTI
+================================== */
+
+function launchConfetti() {
+
+  const colors = [
+
+    "#FF3338",
+    "#A4C545",
+    "#F8AAA1",
+    "#3C6D86",
+    "#8FC1B5"
+
+  ];
+
+
+  for (
+    let i = 0;
+    i < 38;
+    i++
+  ) {
+
+    const piece =
+      document.createElement("div");
+
+
+    piece.className =
+      "confetti";
+
+
+    piece.style.left =
+      Math.random() * 100 + "vw";
+
+
+    piece.style.background =
+      colors[
+        i % colors.length
+      ];
+
+
+    piece.style.animationDelay =
+      Math.random() * .5 + "s";
+
+
+    piece.style.transform =
+      `rotate(
+        ${Math.random() * 360}deg
+      )`;
+
+
+    document.body
+      .appendChild(piece);
+
+
+    setTimeout(
+      () => piece.remove(),
+      2300
+    );
+
+  }
+
+}
+
+
+/* ==================================
+   MEET YOUR SPROUT
+================================== */
+
+function meetSprout() {
+
+  alert(
+    "More Sprout experiences coming soon! 🌱"
+  );
+
+}
+
+
+/* ==================================
+   RESTART
+================================== */
+
+function restartQuiz() {
+
+  document
+    .getElementById("resultScreen")
+    .classList.add("hidden");
+
+
+  startQuiz();
+
+}
+
+</script>
+
+</body>
+</html>
